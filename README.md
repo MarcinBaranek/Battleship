@@ -7,6 +7,7 @@ Dotted line denote flow during starting new game from waiting for opponent until
     
     Service responsible for handling user accounts.
     Has access to the data base to store user names and theirs password's hash.
+    The service is going to write in [go](https://go.dev).
 
 * FrontEnd
 
