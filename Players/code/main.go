@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"code/domain"
+	"code/env"
 	"code/middleware"
 )
 
@@ -23,7 +24,7 @@ func main() {
 			),
 		),
 	)
-	http.ListenAndServe(Port, nil)
+	http.ListenAndServe(env.Port, nil)
 }
 
 func HelloServer(response http.ResponseWriter, request *http.Request) {
@@ -32,7 +33,7 @@ func HelloServer(response http.ResponseWriter, request *http.Request) {
 
 func HandleSignIn(response http.ResponseWriter, request *http.Request) {
 	log.Println("start handling sign_in")
-	var p domain.RequestSignIn
+	var p domain.UserData
 
 	decoder := json.NewDecoder(request.Body)
 	err := decoder.Decode(&p)

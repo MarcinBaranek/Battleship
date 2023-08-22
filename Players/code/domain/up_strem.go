@@ -1,6 +1,6 @@
 package domain
 
-type RequestSignIn struct {
+type UserData struct {
 	UserName     string
 	PasswordHash string
 }
