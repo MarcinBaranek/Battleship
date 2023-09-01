@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=battleship_db
+    volumes:
+      - ./DataaBase/init_db.sql:/docker-entrypoint-initdb.d/
+    ports:
+      - 5432:5432

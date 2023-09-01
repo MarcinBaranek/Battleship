@@ -37,7 +37,7 @@ flowchart TB
     /run_battle <-.->|user1, user2| MatchMaker
     /put_ship <-->|user, ship| FrontEnd
     /shot <-->|user, field| FrontEnd
-    /get_board <==>|user, game_idp| FrontEnd
+    /get_board <==>|user, game_id| FrontEnd
     /mark_shot <--> /shot
     Players === db
 
