@@ -7,6 +7,8 @@ import (
 
 	"code/domain"
 	"code/env"
+
+	_ "github.com/lib/pq"
 )
 
 type DBAdapter struct {
@@ -20,9 +22,11 @@ func (adapter *DBAdapter) Close() {
 func NewDBAdapter() *DBAdapter {
 	conn, err := sql.Open("postgres", env.DB_URL)
 	if err != nil {
+		log.Panic("Cant connect to the data base")
 		panic(err)
 	}
 	if err = conn.Ping(); err != nil {
+		log.Panic("Data base is not responding on ping")
 		panic(err)
 	}
 	return &DBAdapter{
@@ -32,16 +36,9 @@ func NewDBAdapter() *DBAdapter {
 
 func (adapter *DBAdapter) SignIn(user_data *domain.UserData) error {
 	query := fmt.Sprintf(
-		"INSERT INTO users VALUES(user_name, password_hash) (%s, %s)",
+		"INSERT INTO public.user (user_name, password_hash) VALUES ('%s', '%s')",
 		user_data.UserName, user_data.PasswordHash,
 	)
 	_, err := adapter.connection.Exec(query)
-	if err != nil {
-		log.Fatalf(
-			"During inserting into data base user: %s, got the error: %s",
-			user_data.UserName, err,
-		)
-		return err
-	}
-	return nil
+	return err
 }

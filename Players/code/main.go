@@ -1,12 +1,12 @@
 package main
 
-// run with comand: `go run main.go constatns.go`
 import (
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
+	"code/controllers"
+	"code/db"
 	"code/domain"
 	"code/env"
 	"code/middleware"
@@ -32,17 +32,15 @@ func HelloServer(response http.ResponseWriter, request *http.Request) {
 }
 
 func HandleSignIn(response http.ResponseWriter, request *http.Request) {
-	log.Println("start handling sign_in")
-	var p domain.UserData
+	var user domain.UserData
+	db_adapter := db.NewDBAdapter()
 
 	decoder := json.NewDecoder(request.Body)
-	err := decoder.Decode(&p)
+	err := decoder.Decode(&user)
 	if err != nil {
-		fmt.Println(err)
 		http.Error(response, "Error decoding JSON", http.StatusBadRequest)
 		return
 	}
 
-	fmt.Printf("User name: %s\n", p.UserName)
-	response.Write([]byte("OK -> Sign in"))
+	controllers.SignInController(response, db_adapter, &user)
 }
